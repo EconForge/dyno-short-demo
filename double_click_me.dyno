@@ -1,0 +1,125 @@
+##> ═══════════════════════════════════════════════════════════════════════════
+##> 🦖  double_click_me.dyno — the 5-minute Dyno playground
+##> ═══════════════════════════════════════════════════════════════════════════
+##>
+##>  HOW THIS FILE WORKS
+##>   • Lines starting with "##> " are INSTRUCTIONS: comments written for you,
+##>     the reader. The machine skips them — everything after a "#" is a comment.
+##>   • Almost the WHOLE model below is commented out and asleep right now —
+##>     everything except the two pre-hatched knobs of step 1. 💤
+##>   • The panel on the right reads this file LIVE: delete a "#" and it reacts.
+##>     No save button, no run button, no secret handshake. 👀
+##>
+##>  WHY STEP 1 IS ALREADY AWAKE
+##>   • A .dyno file must contain at least one live statement, or the parser
+##>     shrugs: a file of pure comments earns an "Unexpected token" at line 1.
+##>     So rho and sigma come pre-hatched — they keep the file valid while
+##>     everything else sleeps. 🐣
+##>
+##>  HOW TO UN-COMMENT A LINE
+##>   • Click on the line, then press Ctrl+/ (⌘+/ on a Mac) — or simply delete
+##>     the first "#". That's the entire interface. 🙂
+##>   • Anything that remains after a "#" on a model line is an ordinary
+##>     comment and can stay exactly where it is.
+##>
+##>  THE HERO OF OUR STORY
+##>   • A little variable x lives at 0 (it likes it there). Every period a
+##>     spring pulls it home with strength rho, while a surprise e gives it a
+##>     random poke of size sigma. Two knobs, one spring, one poke — that's
+##>     the entire model, five lines. 🥚
+##>
+##>  THE PLAN
+##>   • Six short steps below. Do them IN ORDER, and pause after each one to
+##>     look at the panel on the right. The @run: recipe lines (check, solve,
+##>     sim...) only appear once the model has earned them. One step at a
+##>     time — a dinosaur hatches leg by leg. 🦖
+
+##> ───────────────────────────────────────────────────────────────────────────
+##> STEP 0 — JUST LOOK 👀
+##> Model file on the left, live preview on the right: that's the whole setup.
+##> Two model lines are already awake — they're step 1, just below. Nothing
+##> to fix, nothing to un-comment — just wave hello. 👋
+
+##> ───────────────────────────────────────────────────────────────────────────
+##> STEP 1 — TWO KNOBS (ALREADY AWAKE) 🎛️
+##> 1.1  Nothing to un-comment: rho and sigma were pre-hatched so this file
+##>      parses from the very first double-click (a .dyno file needs at least
+##>      one live statement — pure comments would draw a grumpy squiggle).
+##>      Just READ them, then look right. 👇
+##> 1.2  Look right ➜ no complaints: census of 2 "constants", still
+##>      0 equations and 0 variables.
+##>      rho   ← spring strength (how hard x is pulled back home each period)
+##>      sigma ← the typical size of the surprise e that arrives in step 3
+##>      ("<-" reads as "is set to": fixed numbers, no time involved.)
+##>      No @run lines yet: Dyno can't CHECK a model with no equations,
+##>      so the recipe stays asleep until step 2. 💤
+
+rho   <- 0.85   # spring strength (below 1 means a real pull)
+sigma <- 0.02   # typical size of the surprise e
+
+##> A valid file, but constants can't move. Next: a home.
+
+##> ───────────────────────────────────────────────────────────────────────────
+##> STEP 2 — A HOME AND A SPRING 🏠
+##> 2.1  Un-comment these three lines: x's resting place, its law of motion,
+##>      and the @run: check line (finally! a model with an equation CAN be
+##>      checked — that's why check lives here and not at the top 🧐).
+##> 2.2  Look right ➜ the panel reports: 1 equation, 1 endogenous variable x,
+##>      steady state x = 0. The spring is declared: today is 85% of
+##>      yesterday, and the missing 15% tugs x back toward its home.
+##> 2.3  Meet the time indexes:  [t] = now,  [t-1] = yesterday.
+##>      x[~] is the steady state: where x rests if nothing ever happens.
+
+x[t]  = rho * x[t-1]  + e[t]  # the spring: today's x is 85% of yesterday's x
+x[~] <- 0.0             # x's home: with no pokes, x rests at 0
+
+@run: check
+
+##> Checked ✔. But a model that's never poked is a very calm museum.
+##> Someone poke it. 😏
+
+##> ───────────────────────────────────────────────────────────────────────────
+##> STEP 3 — SURPRISE! 🎲
+##> 3.1  Un-comment the shock line below. Each period, e is drawn from a normal
+##>      distribution with mean 0 and standard deviation sigma.
+##> 3.2  Tiny edit — your first surgery 🩺: on the x[t] line you woke in step 2,
+##>      add "+ e[t]" at the end:      x[t] = rho * x[t-1] + e[t]
+##> 3.3  Also un-comment @run: solve — with a shock in the model there is
+##>      something truly interesting to solve. 🧠
+##> 3.4  Look right ➜ the decision rule now has TWO columns: yesterday's x and
+##>      today's surprise e. The model's heart just grew a chamber. 💓
+##>      Recipe recap:  "<-" creates parameters, steady states, shocks;
+##>                     "="  writes an equation;   N(mean, sd) is a surprise.
+
+e[t] <- N(0, sigma)     # the poke: each period, a surprise of typical size sigma
+@run: solve
+
+##> ───────────────────────────────────────────────────────────────────────────
+##> STEP 4 — LIGHTS, CAMERA, SHOCK! 🎢
+##> 4.1  Un-comment the two directives below: a 20-period simulation of a
+##>      one-shock experiment, and a plot of x and e. That completes the
+##>      recipe — check, solve, simulate, plot — just like a real model. 🚂
+##> 4.2  Look right ➜ the model's fingerprint: at t=0 a one-sigma poke lifts x
+##>      by 0.02, then the spring reels it back — each period, 15% closer to
+##>      home. That dying wave IS the model. 🌊
+
+@run: simul: {T: 20, mode: irf}
+@run: plot: {variables: [x, e]}
+
+##> ───────────────────────────────────────────────────────────────────────────
+##> STEP 5 — PLAY DIRECTOR 🧪
+##> 5.1  Change ONE knob at a time and watch the fingerprint change. It's live:
+##>      • sigma <- 0.05   bigger pokes, taller wave, same shape 🌊🌊
+##>      • rho   <- 0.99   sleepy spring — the wave lingers for ages 🐌
+##>      • rho   <- 0.20   eager spring — short, snappy wave ⚡
+##>      • sigma <- 0.00   no pokes... back to the boring step 2 😴
+##> 5.2  Zoom the plot, hover the curves, break something on purpose: red
+##>      squiggles are Dyno's way of saying "huh?", and they tell you where.
+##>      (Lost at sea? `git checkout -- double_click_me.dyno` brings this file back.)
+
+##> ───────────────────────────────────────────────────────────────────────────
+##> 🎉 YOU DID IT. Your x now has: a home (x[~]), a law (x[t] = ...), a shock
+##> (N(0, sigma)), a solution, and a signature wave. Those five ingredients —
+##> parameters, steady states, shocks, equations — are all of Dyno. Really.
+##> Next: meet the island economy that uses them for a living —
+##> open 01_getting_started.ipynb. Same grammar, more feathers. 🦖 ➜ 🏝️
