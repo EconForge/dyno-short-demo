@@ -25,14 +25,10 @@ Open the notebooks in order. All paths in the notebooks are relative to the repo
 
 The source models are [`models/rbc.dyno`](models/rbc.dyno), [`models/rbc.mod`](models/rbc.mod), and [`models/ramsey_deterministic.dyno`](models/ramsey_deterministic.dyno). The two RBC files use the same shock **standard deviation** of 0.009, so their results can be compared directly. The Dynare notebook demonstrates the syntax supported by this supplied `.mod` file; it is not a test of every Dynare feature. `rbc.dyno` ends with `@run:` directives declaring a full check-solve-simulate-plot workflow; `ramsey_deterministic.dyno` declares `@run: solve`.
 
-## Re-execute the notebooks
+## Work on models and notebooks
 
-After editing a notebook or a model, refresh all committed outputs with:
+To work on a single notebook, open it in JupyterLab and run its cells from top to bottom — the notebooks remain the editable source. Random simulations use explicit seeds every time (7 in notebook 1, 11 in notebook 3), so re-executed outputs stay reproducible.
 
-```bash
-pixi run python generate_notebooks.py
-```
-
-The notebooks are the editable source; this script executes them in order with the active Pixi Python kernel and fails if a cell raises an error. Random simulations use explicit seeds every time (7 in notebook 1, 11 in notebook 3), so refreshed outputs are reproducible. To work on a single file in JupyterLab, run its cells from top to bottom.
+For a first contact with a model file itself, double-click [`double_click_me.dyno`](double_click_me.dyno) in Dyno Lab: a five-line guided playground whose sections stay commented out until you un-comment them one by one and watch the live preview react.
 
 For Dyno's broader API and installation details, see the [Dyno documentation](https://econforge.github.io/dyno.py/).
