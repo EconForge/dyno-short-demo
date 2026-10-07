@@ -1,16 +1,18 @@
 [workspace]
 name = "dyno-examples"
-channels = ["https://repo.prefix.dev/econforge", "conda-forge"]
+channels = ["conda-forge", "https://repo.prefix.dev/econforge"]
 platforms = ["linux-64", "osx-arm64", "osx-64", "win-64"]
 
 [tasks]
-lab = "jupyter lab"
-notebook = "jupyter notebook"
+lab = "python -m jupyterlab"
+notebook = "python -m notebook"
 
 [dependencies]
-dyno = ">=0.1.10"
+dyno = "==0.1.13"
 jupyterlab = ">=4.0.0"
 plotly = ">=5.0.0"
 matplotlib = ">=3.5.0"
 pandas = ">=2.0.0"
 numpy = ">=1.24.0"
+jupyterlab-dyno = "==0.1.2"
+jupyter = ">=1.1.1,<2"

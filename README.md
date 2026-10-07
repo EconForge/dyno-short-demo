@@ -1,66 +1,38 @@
-# Dyno Examples (`dyno.py`)
+# Dyno examples
 
-A curated collection of example models and Jupyter notebooks demonstrating the core capabilities of **[`dyno.py`](https://github.com/EconForge/dyno.py)**, a modern, high-performance Python package for Dynamic Stochastic General Equilibrium (DSGE) modeling.
+Four executable notebooks tell a progression from a model file to an economic result, a nonlinear transition, a Dynare comparison, and a reusable report. They use [dyno.py](https://github.com/EconForge/dyno.py) **0.1.13**, pinned in `pixi.toml` and `pixi.lock`.
 
----
+## New to economics?
 
-## Quick Start
+Start with notebook 1. It opens with a plain-language story — *an island economy, a discovery that surprises it* — and defines every term where it first appears. A **glossary** at its end collects the dozen or so recurring words. No economics background is assumed anywhere: each chart is introduced with what you should see and why. The charts are all Dyno's built-in plots (Altair), so no plotting library is imported or configured in the notebooks.
 
-### 1. Install Pixi (if not already installed)
+## Start here
 
-[Pixi](https://pixi.sh) is a reproducible package manager that installs all dependencies (Python, Dyno, JupyterLab, compilers) automatically:
-
-```bash
-curl -fsSL https://pixi.sh/install.sh | sh
-```
-
-### 2. Launch JupyterLab
-
-Clone or navigate into this repository and run:
+Install [Pixi](https://pixi.sh), clone this repository, and run from its root:
 
 ```bash
 pixi run lab
 ```
 
-This sets up the environment and opens JupyterLab with all example notebooks ready to run.
+Open the notebooks in order. All paths in the notebooks are relative to the repository root. The Pixi environment includes JupyterLab, the Dyno Lab extension, and the packages used by the examples.
 
----
+| Notebook | Economic question | Dyno capabilities |
+| --- | --- | --- |
+| [1. Getting started](01_getting_started.ipynb) | How does a technology innovation move an RBC economy? | Native and inline model text, checks, first-order solution, built-in impulse-response plots, seeded simulation, analytical moments, calibration variants |
+| [2. Deterministic models](02_deterministic_models.ipynb) | How do announced productivity gains and a large capital loss affect the transition path? | Perfect-foresight nonlinear solve, exogenous paths, initial conditions, convergence diagnostics |
+| [3. Dynare compatibility](03_dynare_compatibility.ipynb) | Does the supplied `.mod` model agree with its `.dyno` equivalent? | Dynare-style import, decision rules, numerical steady-state and impulse-response comparison, model moments vs simulated sample |
+| [4. Reports and pipeline](04_reports_and_pipeline.ipynb) | How do we repeat checks and share model results? | File-declared `@run:` workflow (check, solve, simulate, plot), `RunResults`, `dsge_report()`, Dyno Lab |
 
-## Notebooks Overview
+The source models are [`models/rbc.dyno`](models/rbc.dyno), [`models/rbc.mod`](models/rbc.mod), and [`models/ramsey_deterministic.dyno`](models/ramsey_deterministic.dyno). The two RBC files use the same shock **standard deviation** of 0.009, so their results can be compared directly. The Dynare notebook demonstrates the syntax supported by this supplied `.mod` file; it is not a test of every Dynare feature. `rbc.dyno` ends with `@run:` directives declaring a full check-solve-simulate-plot workflow; `ramsey_deterministic.dyno` declares `@run: solve`.
 
-| Notebook | Topic | Description |
-| :--- | :--- | :--- |
-| [**`01_getting_started.ipynb`**](01_getting_started.ipynb) | **Stochastic DSGE Workflow** | Loading `.dyno` models and inline strings, checking Blanchard-Kahn conditions, computing 1st-order perturbation solutions, plotting interactive IRFs with Plotly, running stochastic simulations, computing covariance moments, and on-the-fly recalibration. |
-| [**`02_deterministic_models.ipynb`**](02_deterministic_models.ipynb) | **Perfect Foresight & Transitions** | Solving stacked-time non-linear boundary value systems using Newton's method with sparse automatic differentiation. Simulating anticipated shock trajectories and post-disaster capital recovery dynamics. |
-| [**`03_dynare_compatibility.ipynb`**](03_dynare_compatibility.ipynb) | **Dynare `.mod` Compatibility** | Parsing and running existing Dynare `.mod` files directly in Python without Matlab or Octave. Comparing Dyno and Dynare syntax, computing decision rules, and performing Pythonic downstream data analysis. |
-| [**`04_reports_and_pipeline.ipynb`**](04_reports_and_pipeline.ipynb) | **Automated Reports & Pipelines** | Using declarative `@run:` directives with `model.run()`, generating publication-ready interactive DSGE reports via `dsge_report()`, and integrating with the `jupyterlab-dyno` extension. |
+## Re-execute the notebooks
 
----
+After editing a notebook or a model, refresh all committed outputs with:
 
-## Sample Models (`models/`)
+```bash
+pixi run python generate_notebooks.py
+```
 
-- [`models/rbc.dyno`](models/rbc.dyno): Canonical stochastic Real Business Cycle (RBC) model with capital accumulation, variable labor supply, and an AR(1) technology shock.
-- [`models/ramsey_deterministic.dyno`](models/ramsey_deterministic.dyno): Neoclassical Ramsey growth model with an anticipated multi-period productivity boom and transition path back to steady state.
-- [`models/rbc.mod`](models/rbc.mod): Standard Dynare `.mod` syntax equivalent of the RBC model, demonstrating native compatibility.
+The notebooks are the editable source; this script executes them in order with the active Pixi Python kernel and fails if a cell raises an error. Random simulations use explicit seeds every time (7 in notebook 1, 11 in notebook 3), so refreshed outputs are reproducible. To work on a single file in JupyterLab, run its cells from top to bottom.
 
----
-
-## Core Capabilities Highlighted
-
-- **Dual Syntax**: Native `.dyno` syntax + direct Dynare `.mod` support.
-- **Fast Autodiff**: Automatic differentiation via dual numbers (`DNumber`) for exact symbolic and numerical Jacobians.
-- **Solution Methods**:
-  - Linear perturbation solver (QZ decomposition and time iteration) for stochastic models.
-  - Stacked-time Newton solver with sparse block-tridiagonal Jacobians for perfect-foresight non-linear transitions.
-- **Interactive Visualization**: Out-of-the-box interactive Plotly charts for impulse responses and simulations.
-- **Python Ecosystem Integration**: Seamless interoperability with NumPy, Pandas, SciPy, and Matplotlib.
-
----
-
-## Complementary Tools
-
-- **[`jupyterlab-dyno`](https://github.com/EconForge/jupyterlab-dyno)**: A JupyterLab extension providing live side-by-side preview of `.dyno` and `.mod` files, error highlighting, and an interactive solver options panel.
-
-## License
-
-BSD-3-Clause. Created as part of the [EconForge](https://github.com/EconForge) organization.
+For Dyno's broader API and installation details, see the [Dyno documentation](https://econforge.github.io/dyno.py/).

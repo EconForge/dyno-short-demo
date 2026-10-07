@@ -52,8 +52,12 @@ y[t] = c[t] + i[t]
 # ---------------------------------------------------------------------------
 # 4. Exogenous Processes / Shocks
 # ---------------------------------------------------------------------------
-epsilon[t] <- N(0, 0.009^2)
+# N(mean, standard deviation); this matches `stderr 0.009` in rbc.mod.
+epsilon[t] <- N(0, 0.009)
 
-# Optional run directives for automated pipelines
+# Run directives: a repeatable analysis recipe declared beside the
+# equations (notebook 4 executes it and renders the report).
 @run: check
 @run: solve
+@run: simul: {T: 40, mode: irf, units: percent}
+@run: plot: {variables: [a, y, c, i]}
