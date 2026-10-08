@@ -8,13 +8,13 @@ Start with notebook 1. It opens with a plain-language story — *an island econo
 
 ## Start here
 
-Install [Pixi](https://pixi.sh), clone this repository, and run from its root:
+Run directly in your browser with **[Notebook.link](https://notebook.link/github/EconForge/dyno-short-demo/)**, or install [Pixi](https://pixi.sh), clone this repository, and run from its root:
 
 ```bash
-pixi run lab
+pixi run demo
 ```
 
-Open the notebooks in order. All paths in the notebooks are relative to the repository root. The Pixi environment includes JupyterLab, the Dyno Lab extension, and the packages used by the examples.
+Open the notebooks in order. All paths in the notebooks are relative to the repository root. The environment includes JupyterLab, the Dyno Lab extension, and the packages used by the examples.
 
 | Notebook | Economic question | Dyno capabilities |
 | --- | --- | --- |
@@ -29,6 +29,6 @@ The source models are [`models/rbc.dyno`](models/rbc.dyno), [`models/rbc.mod`](m
 
 To work on a single notebook, open it in JupyterLab and run its cells from top to bottom — the notebooks remain the editable source. Random simulations use explicit seeds every time (7 in notebook 1, 11 in notebook 3), so re-executed outputs stay reproducible.
 
-For a first contact with a model file itself, double-click [`double_click_me.dyno`](double_click_me.dyno) in Dyno Lab: a five-line guided playground whose sections stay commented out until you un-comment them one by one and watch the live preview react.
+For a first contact with a model file itself, double-click [`double_click_me.dyno`](double_click_me.dyno) in Dyno Lab: a step-by-step guided playground that builds a model of inflation dynamics in five minutes, whose sections stay commented out until you un-comment them one by one and watch the live preview react.
 
 For Dyno's broader API and installation details, see the [Dyno documentation](https://econforge.github.io/dyno.py/).

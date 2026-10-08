@@ -31,7 +31,7 @@
 ##>
 ##> 👉 UN-COMMENT 👇
 
- @name: Inflation dynamics, step by step
+# @name: Inflation dynamics, step by step
 
 ##> ───────────────────────────────────────────────────────────────────────────
 ##> STEP 2 — INFLATION LOOKS BACKWARD (a dino with eyes in the back of its head)
@@ -43,7 +43,7 @@
 ##>
 ##> 👉 UN-COMMENT 👇
 
-rho <- 0.7
+# rho <- 0.6
 
 
 ##> Next, the steady state, written [~]: the inflation rate the economy rests
@@ -52,14 +52,14 @@ rho <- 0.7
 ##>
 ##> 👉 UN-COMMENT 👇
 
- pi_1[~] <- 0.02
+# pi_1[~] <- 0.02
 
 ##> Now the equation. [t] is now and [t-1] is last period. Prices follow the
 ##> past: today's gap to the steady state is rho times yesterday's gap.
 ##>
 ##> 👉 UN-COMMENT 👇
 
- pi_1[t] - pi_1[~] = rho * (pi_1[t-1] - pi_1[~])
+# pi_1[t] - pi_1[~] = rho * (pi_1[t-1] - pi_1[~])
 
 ##> 🔎 TAKE A TOUR OF THE PANEL (nothing to un-comment here)
 ##> The panel on the right describes your model, one section at a time. Look
@@ -100,7 +100,7 @@ rho <- 0.7
 ##>
 ##> 👉 UN-COMMENT 👇
 
- @run: check
+# @run: check
 
 ##> Nothing disturbs this economy, so nothing ever happens in it. Let's fix that.
 
@@ -114,10 +114,10 @@ rho <- 0.7
 ##>
 ##> 👉 UN-COMMENT 👇
 
- sigma <- 0.005
- e[t] <- N(0, sigma)
- pi_2[~] <- 0.02
- pi_2[t] - pi_2[~] = rho * (pi_2[t-1] - pi_2[~]) + e[t]
+# sigma <- 0.005
+# e[t] <- N(0, sigma)
+# pi_2[~] <- 0.02
+# pi_2[t] - pi_2[~] = rho * (pi_2[t-1] - pi_2[~]) + e[t]
 
 ##> With a shock in the model there is something interesting to solve. The
 ##> panel offers a solution with two inputs: last period's inflation, and
@@ -125,7 +125,7 @@ rho <- 0.7
 ##>
 ##> 👉 UN-COMMENT 👇
 
- @run: solve
+# @run: solve
 
 ##> 🔎 LOOK RIGHT: a "Solution" section appeared.
 ##>   • Recursive Decision Rule: the general form of the solution,
@@ -149,7 +149,7 @@ rho <- 0.7
 ##>
 ##> 👉 UN-COMMENT 👇
 
- @run: simul: {T: 20, mode: irf}
+# @run: simul: {T: 20, mode: irf}
 
 ##> 🔎 LOOK RIGHT: a "Simulation" section appeared, with three parts.
 ##>   • IRFS (impulse response functions): the experiment we asked for. One
@@ -174,7 +174,7 @@ rho <- 0.7
 ##>
 ##> 👉 UN-COMMENT 👇
 
- @run: plot: {variables: [pi_1, pi_2, e]}
+# @run: plot: {variables: [pi_1, pi_2, e]}
 
 ##> ───────────────────────────────────────────────────────────────────────────
 ##> STEP 5 — MAYBE INFLATION LOOKS FORWARD, TOO
@@ -189,16 +189,16 @@ rho <- 0.7
 ##>
 ##> 👉 UN-COMMENT 👇
 
- beta <- 0.1
- pi_3[~] <- 0.02
- pi_3[t] - pi_3[~] = rho * (pi_3[t-1] - pi_3[~]) + beta * (pi_3[t+1] - pi_3[~]) + e[t]
+# beta <- 0.1
+# pi_3[~] <- 0.02
+# pi_3[t] - pi_3[~] = rho * (pi_3[t-1] - pi_3[~]) + beta * (pi_3[t+1] - pi_3[~]) + e[t]
 
 ##> Finally, compare with the backward-looking version: expectations make
 ##> inflation react differently on impact, and unwind differently too.
 ##>
 ##> 👉 UN-COMMENT 👇
 
- @run: plot: {variables: [pi_2, pi_3]}
+# @run: plot: {variables: [pi_2, pi_3]}
 
 ##> 🔎 LOOK RIGHT: the plot compares backward-looking (pi_2) vs hybrid (pi_3).
 ##>   • With forward-looking expectations (beta > 0), firms anticipate future
@@ -222,11 +222,15 @@ rho <- 0.7
 ##> ───────────────────────────────────────────────────────────────────────────
 ##> BONUS — PARAMETER VARIANTS
 ##> What if we want to compare different values of a parameter?
-##> Add the instruction `@run: variants: {beta: [0.0, 0.1, 0.2]}` before the `@run: solve` statement (line 128)
+##> Un-comment the `@variants` directive below to solve and plot all three
+##> values of beta at once.
+##>
+##> 👉 UN-COMMENT 👇
+
+# @variants: {beta: [0.0, 0.1, 0.2]}
+
 ##> ───────────────────────────────────────────────────────────────────────────
 ##> WHAT YOU JUST DID 🦖
 ##> You wrote a small macroeconomic model from Dyno's ingredients: parameters,
 ##> steady states, shocks and equations, driven by @ metadata.
 ##> Next: open 01_getting_started.ipynb for the same grammar on a bigger model.
-
-@variants: {beta: [0.0, 0.1, 0.2]}
