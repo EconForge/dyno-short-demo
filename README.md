@@ -1,6 +1,6 @@
 # Dyno examples
 
-Four executable notebooks tell a progression from a model file to an economic result, a nonlinear transition, a Dynare comparison, and a reusable report. They use [dyno.py](https://github.com/EconForge/dyno.py) **0.1.13**, pinned in `pixi.toml` and `pixi.lock`.
+Four executable notebooks tell a progression from a model file to an economic result, a nonlinear transition, a Dynare comparison, and a reusable report. They use [dyno.py](https://github.com/EconForge/dyno.py) **0.1.14**, pinned in `pixi.toml`.
 
 ## New to economics?
 
