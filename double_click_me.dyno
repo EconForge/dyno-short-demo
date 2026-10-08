@@ -1,125 +1,232 @@
 ##> ═══════════════════════════════════════════════════════════════════════════
-##> 🦖  double_click_me.dyno — the 5-minute Dyno playground
+##> 🦖 double_click_me.dyno — hatch a model of inflation in five minutes
 ##> ═══════════════════════════════════════════════════════════════════════════
 ##>
-##>  HOW THIS FILE WORKS
-##>   • Lines starting with "##> " are INSTRUCTIONS: comments written for you,
-##>     the reader. The machine skips them — everything after a "#" is a comment.
-##>   • Almost the WHOLE model below is commented out and asleep right now —
-##>     everything except the two pre-hatched knobs of step 1. 💤
-##>   • The panel on the right reads this file LIVE: delete a "#" and it reacts.
-##>     No save button, no run button, no secret handshake. 👀
+##> HOW THIS FILE WORKS
+##>   • Lines starting with "##>" are notes to you. Dyno ignores them, as it
+##>     does everything after a "#".
+##>   • The model is completely empty to begin with. Read down, and whenever
+##>     you see   👉 UN-COMMENT 👇   remove the "#" from the line(s) just
+##>     below it. The panel on the right reads this file live and updates as
+##>     you type: no save button, no run button.
+##>   • To un-comment a line: click on it and press Ctrl+/ (⌘+/ on a Mac),
+##>     or just delete the first "#".
+##>   • You only ever move DOWN the file. Each step ADDS lines and never asks
+##>     you to edit an earlier one.
 ##>
-##>  WHY STEP 1 IS ALREADY AWAKE
-##>   • A .dyno file must contain at least one live statement, or the parser
-##>     shrugs: a file of pure comments earns an "Unexpected token" at line 1.
-##>     So rho and sigma come pre-hatched — they keep the file valid while
-##>     everything else sleeps. 🐣
+##> THE STORY
+##>   Inflation, pi, is the rate at which prices move. We start with firms
+##>   that set prices by looking in the rear-view mirror. We then hit the
+##>   economy with a shock. Finally we let firms look ahead too.
+##>   Each version gets its own variable (pi_1, pi_2, pi_3), so you can
+##>   compare them at the end.
+
+##> ───────────────────────────────────────────────────────────────────────────
+##> STEP 1 — GIVE THE MODEL A NAME
+##> Lines starting with "@" are not part of the model itself. They are
+##> metadata, which tell Dyno (and the panel) things about the model. You can
+##> change them like any other line.
+##> "@name: ..." gives the model a name, which the panel displays.
+##> Un-comment it, then try changing the name: the panel follows.
 ##>
-##>  HOW TO UN-COMMENT A LINE
-##>   • Click on the line, then press Ctrl+/ (⌘+/ on a Mac) — or simply delete
-##>     the first "#". That's the entire interface. 🙂
-##>   • Anything that remains after a "#" on a model line is an ordinary
-##>     comment and can stay exactly where it is.
+##> 👉 UN-COMMENT 👇
+
+ @name: Inflation dynamics, step by step
+
+##> ───────────────────────────────────────────────────────────────────────────
+##> STEP 2 — INFLATION LOOKS BACKWARD (a dino with eyes in the back of its head)
+##> Firms set prices by looking at past dynamics: the gap between inflation
+##> and its long-run level is a fraction rho of last period's gap.
 ##>
-##>  THE HERO OF OUR STORY
-##>   • A little variable x lives at 0 (it likes it there). Every period a
-##>     spring pulls it home with strength rho, while a surprise e gives it a
-##>     random poke of size sigma. Two knobs, one spring, one poke — that's
-##>     the entire model, five lines. 🥚
+##> First, the parameter. rho is persistence: how much of last period's gap
+##> carries over. "<-" reads "is set to": a fixed number.
 ##>
-##>  THE PLAN
-##>   • Six short steps below. Do them IN ORDER, and pause after each one to
-##>     look at the panel on the right. The @run: recipe lines (check, solve,
-##>     sim...) only appear once the model has earned them. One step at a
-##>     time — a dinosaur hatches leg by leg. 🦖
+##> 👉 UN-COMMENT 👇
+
+rho <- 0.7
+
+
+##> Next, the steady state, written [~]: the inflation rate the economy rests
+##> at if nothing disturbs it. Here, a 2% target. We state it BEFORE the
+##> equation because the equation is written as a deviation from it.
+##>
+##> 👉 UN-COMMENT 👇
+
+ pi_1[~] <- 0.02
+
+##> Now the equation. [t] is now and [t-1] is last period. Prices follow the
+##> past: today's gap to the steady state is rho times yesterday's gap.
+##>
+##> 👉 UN-COMMENT 👇
+
+ pi_1[t] - pi_1[~] = rho * (pi_1[t-1] - pi_1[~])
+
+##> 🔎 TAKE A TOUR OF THE PANEL (nothing to un-comment here)
+##> The panel on the right describes your model, one section at a time. Look
+##> at each of them, from top to bottom:
+##>   • MODEL OVERVIEW (blue box): the name (once you gave one in step 1) and
+##>     the file, then a census of the model: how many equations, endogenous
+##>     variables (those the model determines, here pi_1), exogenous
+##>     variables (shocks, none yet) and parameters (rho).
+##>     A "^" next to a symbol means it has no value yet and defaults to nan.
+##>   • CALIBRATION: the numbers. "Parameter values" shows rho; a red dash
+##>     means you haven't set it yet. "Steady state values" shows the
+##>     resting point of each variable: this is your 2%.
+##>   • EQUATIONS: your equation, typeset as math. Compare it with the line
+##>     you wrote above.
+##> Each section grows as you add lines. New ones appear later (the shock, the
+##> solution, the plots), so come back to the panel after every step.
+
+##> ✅ WHY CHECK?
+##> Before solving anything, we ask Dyno two sanity questions. Neither needs
+##> a simulation:
+##>   1. Are the residuals zero? Dyno plugs the steady state into every
+##>      equation and verifies that both sides agree. If they don't, the
+##>      steady state you gave is not really a resting point of the model
+##>      (a typo in the target, or in the equation). Here the check is easy
+##>      to pass: written as deviations, our equation reads 0 = rho * 0 at
+##>      the steady state, whatever value you chose.
+##>   2. Does the model have a unique convergent solution? These are the
+##>      Blanchard-Kahn conditions: the number of explosive roots must match
+##>      the number of forward-looking terms. With only a lag and no
+##>      expectation, this is trivial as long as rho < 1: after a shock,
+##>      inflation drifts back home.
+##> Try it later: set rho above 1, say 1.1. Each period, the gap grows
+##> instead of shrinking, nothing brings inflation back, and the check
+##> should complain. Then put it back to 0.6.
+##>
+##> The panel should report 1 equation, 1 variable, and a steady state of 2%.
+##> "@run: ..." asks Dyno for a task: check, solve, simulate, plot.
+##>
+##> 👉 UN-COMMENT 👇
+
+ @run: check
+
+##> Nothing disturbs this economy, so nothing ever happens in it. Let's fix that.
 
 ##> ───────────────────────────────────────────────────────────────────────────
-##> STEP 0 — JUST LOOK 👀
-##> Model file on the left, live preview on the right: that's the whole setup.
-##> Two model lines are already awake — they're step 1, just below. Nothing
-##> to fix, nothing to un-comment — just wave hello. 👋
+##> STEP 3 — ADD A SHOCK (enter the asteroid ☄️, in a gentler version)
+##> Say oil prices spike: a cost-push shock e hits every period. Each period,
+##> e is drawn from a normal distribution with mean 0 and standard deviation
+##> sigma, the typical size of the shock. It feeds a shocked copy of
+##> inflation, pi_2: same 2% steady state, same backward-looking rule as
+##> before, plus e.
+##>
+##> 👉 UN-COMMENT 👇
+
+ sigma <- 0.005
+ e[t] <- N(0, sigma)
+ pi_2[~] <- 0.02
+ pi_2[t] - pi_2[~] = rho * (pi_2[t-1] - pi_2[~]) + e[t]
+
+##> With a shock in the model there is something interesting to solve. The
+##> panel offers a solution with two inputs: last period's inflation, and
+##> today's shock.
+##>
+##> 👉 UN-COMMENT 👇
+
+ @run: solve
+
+##> 🔎 LOOK RIGHT: a "Solution" section appeared.
+##>   • Recursive Decision Rule: the general form of the solution,
+##>     y[t] = ȳ + A (y[t-1] - ȳ) + B e[t]. Today's variables are their steady
+##>     state, plus a share of yesterday's gap, plus the effect of today's
+##>     shock. Nothing else matters: the model is summarized by two matrices.
+##>   • Steady-state: ȳ, the 2% for both pi_1 and pi_2.
+##>   • Jacobian: the matrices A and B, filled with numbers. Rows are today's
+##>     variables, columns are what they depend on (last period's variables,
+##>     and the shock). Read it:
+##>       - the diagonal 0.6 is rho: each gap keeps 60% of itself per period;
+##>       - the 1.0 in the pi_2 row, e column: a shock of 1 raises pi_2 by 1
+##>         on impact;
+##>       - the 0.0 in the pi_1 row, e column: pi_1 never sees the shock.
+##>     It is exactly the equations, rewritten as a machine that gives today
+##>     from yesterday and today's news.
 
 ##> ───────────────────────────────────────────────────────────────────────────
-##> STEP 1 — TWO KNOBS (ALREADY AWAKE) 🎛️
-##> 1.1  Nothing to un-comment: rho and sigma were pre-hatched so this file
-##>      parses from the very first double-click (a .dyno file needs at least
-##>      one live statement — pure comments would draw a grumpy squiggle).
-##>      Just READ them, then look right. 👇
-##> 1.2  Look right ➜ no complaints: census of 2 "constants", still
-##>      0 equations and 0 variables.
-##>      rho   ← spring strength (how hard x is pulled back home each period)
-##>      sigma ← the typical size of the surprise e that arrives in step 3
-##>      ("<-" reads as "is set to": fixed numbers, no time involved.)
-##>      No @run lines yet: Dyno can't CHECK a model with no equations,
-##>      so the recipe stays asleep until step 2. 💤
+##> STEP 4 — WATCH THE SHOCK PLAY OUT
+##> First, a 20-period simulation of a one-time shock.
+##>
+##> 👉 UN-COMMENT 👇
 
-rho   <- 0.85   # spring strength (below 1 means a real pull)
-sigma <- 0.02   # typical size of the surprise e
+ @run: simul: {T: 20, mode: irf}
 
-##> A valid file, but constants can't move. Next: a home.
+##> 🔎 LOOK RIGHT: a "Simulation" section appeared, with three parts.
+##>   • IRFS (impulse response functions): the experiment we asked for. One
+##>     shock of size sigma (0.005) hits at the start, then nothing else.
+##>     Read the pi_2 column: 0.005 right after the shock, then 0.003, 0.0018,
+##>     0.00108... Each number is the previous one times rho = 0.6. The
+##>     shock fades geometrically. The pi_1 column is 0.0 all the way: the
+##>     backward-looking copy never got shocked. (Values are deviations from
+##>     the 2% steady state.)
+##>   • Unconditional Moments: the variances and covariances of the model
+##>     when shocks keep arriving forever. For pi_2 it is 0.000039, which is
+##>     sigma^2 / (1 - rho^2) = 0.000025 / 0.64. A persistent economy wanders
+##>     further from home than a single period's shock suggests.
+##>   • Conditional Moments: the same, but one period ahead given what we know
+##>     today. For pi_2 it is 0.000025 = sigma^2: all that cannot be predicted
+##>     is the next shock. Compare the two numbers: persistence is what makes
+##>     the first larger.
 
-##> ───────────────────────────────────────────────────────────────────────────
-##> STEP 2 — A HOME AND A SPRING 🏠
-##> 2.1  Un-comment these three lines: x's resting place, its law of motion,
-##>      and the @run: check line (finally! a model with an equation CAN be
-##>      checked — that's why check lives here and not at the top 🧐).
-##> 2.2  Look right ➜ the panel reports: 1 equation, 1 endogenous variable x,
-##>      steady state x = 0. The spring is declared: today is 85% of
-##>      yesterday, and the missing 15% tugs x back toward its home.
-##> 2.3  Meet the time indexes:  [t] = now,  [t-1] = yesterday.
-##>      x[~] is the steady state: where x rests if nothing ever happens.
+##> Then a plot. Inflation jumps on impact, then fades back toward 2% by a
+##> factor rho each period. pi_1 stays flat at its steady state: nothing ever
+##> hit it.
+##>
+##> 👉 UN-COMMENT 👇
 
-x[t]  = rho * x[t-1]  + e[t]  # the spring: today's x is 85% of yesterday's x
-x[~] <- 0.0             # x's home: with no pokes, x rests at 0
-
-@run: check
-
-##> Checked ✔. But a model that's never poked is a very calm museum.
-##> Someone poke it. 😏
+ @run: plot: {variables: [pi_1, pi_2, e]}
 
 ##> ───────────────────────────────────────────────────────────────────────────
-##> STEP 3 — SURPRISE! 🎲
-##> 3.1  Un-comment the shock line below. Each period, e is drawn from a normal
-##>      distribution with mean 0 and standard deviation sigma.
-##> 3.2  Tiny edit — your first surgery 🩺: on the x[t] line you woke in step 2,
-##>      add "+ e[t]" at the end:      x[t] = rho * x[t-1] + e[t]
-##> 3.3  Also un-comment @run: solve — with a shock in the model there is
-##>      something truly interesting to solve. 🧠
-##> 3.4  Look right ➜ the decision rule now has TWO columns: yesterday's x and
-##>      today's surprise e. The model's heart just grew a chamber. 💓
-##>      Recipe recap:  "<-" creates parameters, steady states, shocks;
-##>                     "="  writes an equation;   N(mean, sd) is a surprise.
+##> STEP 5 — MAYBE INFLATION LOOKS FORWARD, TOO
+##> Firms are not that naive. Prices set today stay in place for a while, so
+##> firms also care about the inflation they EXPECT next period: pi_3[t+1].
+##> beta is the weight on that expectation. The third version of inflation,
+##> pi_3, again rests at 2%, and its equation looks backward AND forward.
+##> Dyno reads pi_3[t+1] as a rational expectation: the solver works out by
+##> itself how inflation must jump today for expectations to come true.
+##> (If beta * rho gets too large, roughly 4 * beta * rho > 1, there is no
+##> stable solution and the panel will say so.)
+##>
+##> 👉 UN-COMMENT 👇
 
-e[t] <- N(0, sigma)     # the poke: each period, a surprise of typical size sigma
-@run: solve
+ beta <- 0.1
+ pi_3[~] <- 0.02
+ pi_3[t] - pi_3[~] = rho * (pi_3[t-1] - pi_3[~]) + beta * (pi_3[t+1] - pi_3[~]) + e[t]
 
-##> ───────────────────────────────────────────────────────────────────────────
-##> STEP 4 — LIGHTS, CAMERA, SHOCK! 🎢
-##> 4.1  Un-comment the two directives below: a 20-period simulation of a
-##>      one-shock experiment, and a plot of x and e. That completes the
-##>      recipe — check, solve, simulate, plot — just like a real model. 🚂
-##> 4.2  Look right ➜ the model's fingerprint: at t=0 a one-sigma poke lifts x
-##>      by 0.02, then the spring reels it back — each period, 15% closer to
-##>      home. That dying wave IS the model. 🌊
+##> Finally, compare with the backward-looking version: expectations make
+##> inflation react differently on impact, and unwind differently too.
+##>
+##> 👉 UN-COMMENT 👇
 
-@run: simul: {T: 20, mode: irf}
-@run: plot: {variables: [x, e]}
+ @run: plot: {variables: [pi_2, pi_3]}
 
-##> ───────────────────────────────────────────────────────────────────────────
-##> STEP 5 — PLAY DIRECTOR 🧪
-##> 5.1  Change ONE knob at a time and watch the fingerprint change. It's live:
-##>      • sigma <- 0.05   bigger pokes, taller wave, same shape 🌊🌊
-##>      • rho   <- 0.99   sleepy spring — the wave lingers for ages 🐌
-##>      • rho   <- 0.20   eager spring — short, snappy wave ⚡
-##>      • sigma <- 0.00   no pokes... back to the boring step 2 😴
-##> 5.2  Zoom the plot, hover the curves, break something on purpose: red
-##>      squiggles are Dyno's way of saying "huh?", and they tell you where.
-##>      (Lost at sea? `git checkout -- double_click_me.dyno` brings this file back.)
+##> 🔎 LOOK RIGHT: the plot compares backward-looking (pi_2) vs hybrid (pi_3).
+##>   • With forward-looking expectations (beta > 0), firms anticipate future
+##>     price pressures, shifting today's price response.
+##>   • Compare the two curves: pi_3 reacts differently on impact and follows
+##>     a distinct decay trajectory back to the 2% steady state.
+##>   • Try setting beta <- 0.0 in Step 5: pi_3 will collapse back onto pi_2.
 
 ##> ───────────────────────────────────────────────────────────────────────────
-##> 🎉 YOU DID IT. Your x now has: a home (x[~]), a law (x[t] = ...), a shock
-##> (N(0, sigma)), a solution, and a signature wave. Those five ingredients —
-##> parameters, steady states, shocks, equations — are all of Dyno. Really.
-##> Next: meet the island economy that uses them for a living —
-##> open 01_getting_started.ipynb. Same grammar, more feathers. 🦖 ➜ 🏝️
+##> STEP 6 — PLAY
+##> Change ONE parameter at a time and watch the responses change. It's live.
+##>   • sigma <- 0.01    bigger shocks, taller response, same shape
+##>   • rho   <- 0.8     more inertia: inflation lingers
+##>   • beta  <- 0.0     firms stop looking ahead: pi_3 falls on pi_2
+##>   • pi_1[~] <- 0.04  a higher target: the equation moves with it, which is
+##>                      the point of writing it in deviations
+##> Red squiggles are Dyno's way of saying "I don't follow", and they point to
+##> where it got lost. If you get lost yourself,
+##> `git checkout -- double_click_me.dyno` brings this file back.
+
+##> ───────────────────────────────────────────────────────────────────────────
+##> BONUS — PARAMETER VARIANTS
+##> What if we want to compare different values of a parameter?
+##> Add the instruction `@run: variants: {beta: [0.0, 0.1, 0.2]}` before the `@run: solve` statement (line 128)
+##> ───────────────────────────────────────────────────────────────────────────
+##> WHAT YOU JUST DID 🦖
+##> You wrote a small macroeconomic model from Dyno's ingredients: parameters,
+##> steady states, shocks and equations, driven by @ metadata.
+##> Next: open 01_getting_started.ipynb for the same grammar on a bigger model.
+
+@variants: {beta: [0.0, 0.1, 0.2]}

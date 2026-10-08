@@ -1,18 +1,38 @@
 [workspace]
 name = "dyno-examples"
-channels = ["conda-forge", "https://repo.prefix.dev/econforge"]
+channels = ["https://repo.prefix.dev/econforge","conda-forge"], 
 platforms = ["linux-64", "osx-arm64", "osx-64", "win-64"]
+preview = ["pixi-build"]
 
 [tasks]
-lab = "python -m jupyterlab"
+demo = "python -m jupyterlab"
 notebook = "python -m notebook"
 
 [dependencies]
-dyno = "==0.1.13"
 jupyterlab = ">=4.0.0"
 plotly = ">=5.0.0"
 matplotlib = ">=3.5.0"
 pandas = ">=2.0.0"
 numpy = ">=1.24.0"
-jupyterlab-dyno = "==0.1.2"
 jupyter = ">=1.1.1,<2"
+
+# Released versions of dyno and jupyterlab-dyno (default environment)
+[feature.release.dependencies]
+dyno = "==0.1.13"
+jupyterlab-dyno = "==0.1.2"
+
+# Local development versions, built from source with pixi-build:
+#   - ../dyno.py          (conda package `dyno`)
+#   - ../jupyterlab-dyno  (conda package `jupyterlab-dyno`)
+# Their run dependencies are taken from the respective package definitions.
+[feature.dev.dependencies]
+python = ">=3.12,<3.14"
+dyno = { path = "../dyno.py" }
+jupyterlab-dyno = { path = "../jupyterlab-dyno" }
+
+[feature.dev.tasks]
+demo-dev = "python -m jupyterlab"
+
+[environments]
+default = ["release"]
+dev = ["dev"]
