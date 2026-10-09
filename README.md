@@ -1,34 +1,30 @@
-# Dyno examples
+# Dyno Examples
 
-Four executable notebooks tell a progression from a model file to an economic result, a nonlinear transition, a Dynare comparison, and a reusable report. They use [dyno.py](https://github.com/EconForge/dyno.py) **0.1.14**, pinned in `pixi.toml`.
+[![notebook.link](https://img.shields.io/badge/notebook.link-e2d610?logo=jupyter&logoColor=white)](https://notebook.link/github/EconForge/dyno-short-demo/)
 
-## New to economics?
+Interactive demo notebooks for [dyno](https://github.com/EconForge/dyno.py).
 
-Start with notebook 1. It opens with a plain-language story — *an island economy, a discovery that surprises it* — and defines every term where it first appears. A **glossary** at its end collects the dozen or so recurring words. No economics background is assumed anywhere: each chart is introduced with what you should see and why. The charts are all Dyno's built-in plots (Altair), so no plotting library is imported or configured in the notebooks.
+## Run Online
 
-## Start here
+Run directly in your browser without installation:
+https://notebook.link/github/EconForge/dyno-short-demo/
 
-Run directly in your browser with **[Notebook.link](https://notebook.link/github/EconForge/dyno-short-demo/)**, or install [Pixi](https://pixi.sh), clone this repository, and run from its root:
+## Run Locally
+
+Install [Pixi](https://pixi.sh) and launch JupyterLab:
 
 ```bash
 pixi run demo
 ```
 
-Open the notebooks in order. All paths in the notebooks are relative to the repository root. The environment includes JupyterLab, the Dyno Lab extension, and the packages used by the examples.
+## Notebooks
 
-| Notebook | Economic question | Dyno capabilities |
-| --- | --- | --- |
-| [1. Getting started](01_getting_started.ipynb) | How does a technology innovation move an RBC economy? | Native and inline model text, checks, first-order solution, built-in impulse-response plots, seeded simulation, analytical moments, calibration variants |
-| [2. Deterministic models](02_deterministic_models.ipynb) | How do announced productivity gains and a large capital loss affect the transition path? | Perfect-foresight nonlinear solve, exogenous paths, initial conditions, convergence diagnostics |
-| [3. Dynare compatibility](03_dynare_compatibility.ipynb) | Does the supplied `.mod` model agree with its `.dyno` equivalent? | Dynare-style import, decision rules, numerical steady-state and impulse-response comparison, model moments vs simulated sample |
-| [4. Reports and pipeline](04_reports_and_pipeline.ipynb) | How do we repeat checks and share model results? | File-declared `@run:` workflow (check, solve, simulate, plot), `RunResults`, `dsge_report()`, Dyno Lab |
+- [01_getting_started.ipynb](01_getting_started.ipynb) — First steps with an RBC model
+- [02_deterministic_models.ipynb](02_deterministic_models.ipynb) — Deterministic transition paths
+- [03_dynare_compatibility.ipynb](03_dynare_compatibility.ipynb) — Dynare compatibility (`.mod` vs `.dyno`)
+- [04_reports_and_pipeline.ipynb](04_reports_and_pipeline.ipynb) — Automated workflows and reports
+- [double_click_me.dyno](double_click_me.dyno) — Guided model playground in Dyno Lab
 
-The source models are [`models/rbc.dyno`](models/rbc.dyno), [`models/rbc.mod`](models/rbc.mod), and [`models/ramsey_deterministic.dyno`](models/ramsey_deterministic.dyno). The two RBC files use the same shock **standard deviation** of 0.009, so their results can be compared directly. The Dynare notebook demonstrates the syntax supported by this supplied `.mod` file; it is not a test of every Dynare feature. `rbc.dyno` ends with `@run:` directives declaring a full check-solve-simulate-plot workflow; `ramsey_deterministic.dyno` declares `@run: solve`.
+## Documentation
 
-## Work on models and notebooks
-
-To work on a single notebook, open it in JupyterLab and run its cells from top to bottom — the notebooks remain the editable source. Random simulations use explicit seeds every time (7 in notebook 1, 11 in notebook 3), so re-executed outputs stay reproducible.
-
-For a first contact with a model file itself, double-click [`double_click_me.dyno`](double_click_me.dyno) in Dyno Lab: a step-by-step guided playground that builds a model of inflation dynamics in five minutes, whose sections stay commented out until you un-comment them one by one and watch the live preview react.
-
-For Dyno's broader API and installation details, see the [Dyno documentation](https://econforge.github.io/dyno.py/).
+See the [Dyno documentation](https://econforge.github.io/dyno.py/) for full API details and installation options.

@@ -6,4 +6,4 @@ channels:
 dependencies:
   - xeus-python
   - dyno >=0.1.14
-  - jupyterlab-dyno >=0.1.3
+  - jupyterlab-dyno >=0.1.4

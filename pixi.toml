@@ -16,12 +16,12 @@ matplotlib = ">=3.5.0"
 pandas = ">=2.0.0"
 numpy = ">=1.24.0"
 jupyter = ">=1.1.1,<2"
-jupyterlab-dyno = ">=0.1.3,<0.2"
+jupyterlab-dyno = ">=0.1.4,<0.2"
 
 # Released versions of dyno and jupyterlab-dyno (default environment)
 [feature.release.dependencies]
 dyno = "==0.1.14"
-jupyterlab-dyno = "==0.1.3"
+jupyterlab-dyno = "==0.1.4"
 
 # Local development versions, built from source with pixi-build:
 #   - ../dyno.py          (conda package `dyno`)
