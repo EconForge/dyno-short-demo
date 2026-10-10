@@ -1,236 +1,236 @@
-##> ═══════════════════════════════════════════════════════════════════════════
-##> 🦖 double_click_me.dyno — hatch a model of inflation in five minutes
-##> ═══════════════════════════════════════════════════════════════════════════
-##>
-##> HOW THIS FILE WORKS
-##>   • Lines starting with "##>" are notes to you. Dyno ignores them, as it
-##>     does everything after a "#".
-##>   • The model is completely empty to begin with. Read down, and whenever
-##>     you see   👉 UN-COMMENT 👇   remove the "#" from the line(s) just
-##>     below it. The panel on the right reads this file live and updates as
-##>     you type: no save button, no run button.
-##>   • To un-comment a line: click on it and press Ctrl+/ (⌘+/ on a Mac),
-##>     or just delete the first "#".
-##>   • You only ever move DOWN the file. Each step ADDS lines and never asks
-##>     you to edit an earlier one.
-##>
-##> THE STORY
-##>   Inflation, pi, is the rate at which prices move. We start with firms
-##>   that set prices by looking in the rear-view mirror. We then hit the
-##>   economy with a shock. Finally we let firms look ahead too.
-##>   Each version gets its own variable (pi_1, pi_2, pi_3), so you can
-##>   compare them at the end.
+## ───────────────────────────────────────────────────────────────────────────
+## # 🦖 double_click_me.dyno — hatch a model of inflation in five minutes
+## ───────────────────────────────────────────────────────────────────────────
+##
+## ## HOW THIS FILE WORKS
+##   • Lines starting with "##" are notes to you (formatted in Markdown).
+##     Dyno ignores them, as it does everything after a "#".
+##   • The model is completely empty to begin with. Read down, and whenever
+##     you see **👉 UN-COMMENT 👇**, remove the "#" from the line(s) just
+##     below it. The panel on the right reads this file live and updates as
+##     you type: no save button, no run button.
+##   • To un-comment a line: click on it and press **Ctrl+/** (**⌘+/** on a Mac),
+##     or just delete the first "#".
+##   • You only ever move DOWN the file. Each step ADDS lines and never asks
+##     you to edit an earlier one.
+##
+## ## THE STORY
+##   Inflation, `pi`, is the rate at which prices move. We start with firms
+##   that set prices by looking in the rear-view mirror. We then hit the
+##   economy with a shock. Finally we let firms look ahead too.
+##   Each version gets its own variable (`pi_1`, `pi_2`, `pi_3`), so you can
+##   compare them at the end.
 
-##> ───────────────────────────────────────────────────────────────────────────
-##> STEP 1 — GIVE THE MODEL A NAME
-##> Lines starting with "@" are not part of the model itself. They are
-##> metadata, which tell Dyno (and the panel) things about the model. You can
-##> change them like any other line.
-##> "@name: ..." gives the model a name, which the panel displays.
-##> Un-comment it, then try changing the name: the panel follows.
-##>
-##> 👉 UN-COMMENT 👇
+## ───────────────────────────────────────────────────────────────────────────
+## ## STEP 1 — GIVE THE MODEL A NAME
+## Lines starting with `@` are not part of the model itself. They are
+## metadata, which tell Dyno (and the panel) things about the model. You can
+## change them like any other line.
+## `@name: ...` gives the model a name, which the panel displays.
+## Un-comment it, then try changing the name: the panel follows.
+##
+## **👉 UN-COMMENT 👇**
 
 # @name: Inflation dynamics, step by step
 
-##> ───────────────────────────────────────────────────────────────────────────
-##> STEP 2 — INFLATION LOOKS BACKWARD (a dino with eyes in the back of its head)
-##> Firms set prices by looking at past dynamics: the gap between inflation
-##> and its long-run level is a fraction rho of last period's gap.
-##>
-##> First, the parameter. rho is persistence: how much of last period's gap
-##> carries over. "<-" reads "is set to": a fixed number.
-##>
-##> 👉 UN-COMMENT 👇
+## ───────────────────────────────────────────────────────────────────────────
+## ## STEP 2 — INFLATION LOOKS BACKWARD (a dino with eyes in the back of its head)
+## Firms set prices by looking at past dynamics: the gap between inflation
+## and its long-run level is a fraction `rho` of last period's gap.
+##
+## First, the parameter. `rho` is persistence: how much of last period's gap
+## carries over. `<-` reads "is set to": a fixed number.
+##
+## **👉 UN-COMMENT 👇**
 
 # rho <- 0.6
 
 
-##> Next, the steady state, written [~]: the inflation rate the economy rests
-##> at if nothing disturbs it. Here, a 2% target. We state it BEFORE the
-##> equation because the equation is written as a deviation from it.
-##>
-##> 👉 UN-COMMENT 👇
+## Next, the steady state, written `[~]`: the inflation rate the economy rests
+## at if nothing disturbs it. Here, a 2% target. We state it BEFORE the
+## equation because the equation is written as a deviation from it.
+##
+## **👉 UN-COMMENT 👇**
 
 # pi_1[~] <- 0.02
 
-##> Now the equation. [t] is now and [t-1] is last period. Prices follow the
-##> past: today's gap to the steady state is rho times yesterday's gap.
-##>
-##> 👉 UN-COMMENT 👇
+## Now the equation. `[t]` is now and `[t-1]` is last period. Prices follow the
+## past: today's gap to the steady state is `rho` times yesterday's gap.
+##
+## **👉 UN-COMMENT 👇**
 
-# pi_1[t] - pi_1[~] = rho * (pi_1[t-1] - pi_1[~])
+pi_1[t] - pi_1[~] = rho * (pi_1[t-1] - pi_1[~])
 
-##> 🔎 TAKE A TOUR OF THE PANEL (nothing to un-comment here)
-##> The panel on the right describes your model, one section at a time. Look
-##> at each of them, from top to bottom:
-##>   • MODEL OVERVIEW (blue box): the name (once you gave one in step 1) and
-##>     the file, then a census of the model: how many equations, endogenous
-##>     variables (those the model determines, here pi_1), exogenous
-##>     variables (shocks, none yet) and parameters (rho).
-##>     A "^" next to a symbol means it has no value yet and defaults to nan.
-##>   • CALIBRATION: the numbers. "Parameter values" shows rho; a red dash
-##>     means you haven't set it yet. "Steady state values" shows the
-##>     resting point of each variable: this is your 2%.
-##>   • EQUATIONS: your equation, typeset as math. Compare it with the line
-##>     you wrote above.
-##> Each section grows as you add lines. New ones appear later (the shock, the
-##> solution, the plots), so come back to the panel after every step.
+## ### 🔎 Take a tour of the panel (nothing to un-comment here)
+## The panel on the right describes your model, one section at a time. Look
+## at each of them, from top to bottom:
+##   • **Model Overview** (blue box): the name (once you gave one in step 1) and
+##     the file, then a census of the model: how many equations, endogenous
+##     variables (those the model determines, here `pi_1`), exogenous
+##     variables (shocks, none yet) and parameters (`rho`).
+##     A `^` next to a symbol means it has no value yet and defaults to nan.
+##   • **Calibration**: the numbers. "Parameter values" shows `rho`; a red dash
+##     means you haven't set it yet. "Steady state values" shows the
+##     resting point of each variable: this is your 2%.
+##   • **Equations**: your equation, typeset as math. Compare it with the line
+##     you wrote above.
+## Each section grows as you add lines. New ones appear later (the shock, the
+## solution, the plots), so come back to the panel after every step.
 
-##> ✅ WHY CHECK?
-##> Before solving anything, we ask Dyno two sanity questions. Neither needs
-##> a simulation:
-##>   1. Are the residuals zero? Dyno plugs the steady state into every
-##>      equation and verifies that both sides agree. If they don't, the
-##>      steady state you gave is not really a resting point of the model
-##>      (a typo in the target, or in the equation). Here the check is easy
-##>      to pass: written as deviations, our equation reads 0 = rho * 0 at
-##>      the steady state, whatever value you chose.
-##>   2. Does the model have a unique convergent solution? These are the
-##>      Blanchard-Kahn conditions: the number of explosive roots must match
-##>      the number of forward-looking terms. With only a lag and no
-##>      expectation, this is trivial as long as rho < 1: after a shock,
-##>      inflation drifts back home.
-##> Try it later: set rho above 1, say 1.1. Each period, the gap grows
-##> instead of shrinking, nothing brings inflation back, and the check
-##> should complain. Then put it back to 0.6.
-##>
-##> The panel should report 1 equation, 1 variable, and a steady state of 2%.
-##> "@run: ..." asks Dyno for a task: check, solve, simulate, plot.
-##>
-##> 👉 UN-COMMENT 👇
+## ### ✅ Why check?
+## Before solving anything, we ask Dyno two sanity questions. Neither needs
+## a simulation:
+##   1. Are the residuals zero? Dyno plugs the steady state into every
+##      equation and verifies that both sides agree. If they don't, the
+##      steady state you gave is not really a resting point of the model
+##      (a typo in the target, or in the equation). Here the check is easy
+##      to pass: written as deviations, our equation reads `0 = rho * 0` at
+##      the steady state, whatever value you chose.
+##   2. Does the model have a unique convergent solution? These are the
+##      Blanchard-Kahn conditions: the number of explosive roots must match
+##      the number of forward-looking terms. With only a lag and no
+##      expectation, this is trivial as long as `rho < 1`: after a shock,
+##      inflation drifts back home.
+## Try it later: set `rho` above 1, say 1.1. Each period, the gap grows
+## instead of shrinking, nothing brings inflation back, and the check
+## should complain. Then put it back to 0.6.
+##
+## The panel should report 1 equation, 1 variable, and a steady state of 2%.
+## `@run: ...` asks Dyno for a task: check, solve, simulate, plot.
+##
+## **👉 UN-COMMENT 👇**
 
 # @run: check
 
-##> Nothing disturbs this economy, so nothing ever happens in it. Let's fix that.
+## Nothing disturbs this economy, so nothing ever happens in it. Let's fix that.
 
-##> ───────────────────────────────────────────────────────────────────────────
-##> STEP 3 — ADD A SHOCK (enter the asteroid ☄️, in a gentler version)
-##> Say oil prices spike: a cost-push shock e hits every period. Each period,
-##> e is drawn from a normal distribution with mean 0 and standard deviation
-##> sigma, the typical size of the shock. It feeds a shocked copy of
-##> inflation, pi_2: same 2% steady state, same backward-looking rule as
-##> before, plus e.
-##>
-##> 👉 UN-COMMENT 👇
+## ───────────────────────────────────────────────────────────────────────────
+## ## STEP 3 — ADD A SHOCK (enter the asteroid ☄️, in a gentler version)
+## Say oil prices spike: a cost-push shock `e` hits every period. Each period,
+## `e` is drawn from a normal distribution with mean 0 and standard deviation
+## `sigma`, the typical size of the shock. It feeds a shocked copy of
+## inflation, `pi_2`: same 2% steady state, same backward-looking rule as
+## before, plus `e`.
+##
+## **👉 UN-COMMENT 👇**
 
 # sigma <- 0.005
 # e[t] <- N(0, sigma)
 # pi_2[~] <- 0.02
 # pi_2[t] - pi_2[~] = rho * (pi_2[t-1] - pi_2[~]) + e[t]
 
-##> With a shock in the model there is something interesting to solve. The
-##> panel offers a solution with two inputs: last period's inflation, and
-##> today's shock.
-##>
-##> 👉 UN-COMMENT 👇
+## With a shock in the model there is something interesting to solve. The
+## panel offers a solution with two inputs: last period's inflation, and
+## today's shock.
+##
+## **👉 UN-COMMENT 👇**
 
 # @run: solve
 
-##> 🔎 LOOK RIGHT: a "Solution" section appeared.
-##>   • Recursive Decision Rule: the general form of the solution,
-##>     y[t] = ȳ + A (y[t-1] - ȳ) + B e[t]. Today's variables are their steady
-##>     state, plus a share of yesterday's gap, plus the effect of today's
-##>     shock. Nothing else matters: the model is summarized by two matrices.
-##>   • Steady-state: ȳ, the 2% for both pi_1 and pi_2.
-##>   • Jacobian: the matrices A and B, filled with numbers. Rows are today's
-##>     variables, columns are what they depend on (last period's variables,
-##>     and the shock). Read it:
-##>       - the diagonal 0.6 is rho: each gap keeps 60% of itself per period;
-##>       - the 1.0 in the pi_2 row, e column: a shock of 1 raises pi_2 by 1
-##>         on impact;
-##>       - the 0.0 in the pi_1 row, e column: pi_1 never sees the shock.
-##>     It is exactly the equations, rewritten as a machine that gives today
-##>     from yesterday and today's news.
+## ### 🔎 Look right: a "Solution" section appeared
+##   • **Recursive Decision Rule**: the general form of the solution,
+##     `y[t] = ȳ + A (y[t-1] - ȳ) + B e[t]`. Today's variables are their steady
+##     state, plus a share of yesterday's gap, plus the effect of today's
+##     shock. Nothing else matters: the model is summarized by two matrices.
+##   • **Steady-state**: `ȳ`, the 2% for both `pi_1` and `pi_2`.
+##   • **Jacobian**: the matrices `A` and `B`, filled with numbers. Rows are today's
+##     variables, columns are what they depend on (last period's variables,
+##     and the shock). Read it:
+##       - the diagonal 0.6 is `rho`: each gap keeps 60% of itself per period;
+##       - the 1.0 in the `pi_2` row, `e` column: a shock of 1 raises `pi_2` by 1
+##         on impact;
+##       - the 0.0 in the `pi_1` row, `e` column: `pi_1` never sees the shock.
+##     It is exactly the equations, rewritten as a machine that gives today
+##     from yesterday and today's news.
 
-##> ───────────────────────────────────────────────────────────────────────────
-##> STEP 4 — WATCH THE SHOCK PLAY OUT
-##> First, a 20-period simulation of a one-time shock.
-##>
-##> 👉 UN-COMMENT 👇
+## ───────────────────────────────────────────────────────────────────────────
+## ## STEP 4 — WATCH THE SHOCK PLAY OUT
+## First, a 20-period simulation of a one-time shock.
+##
+## **👉 UN-COMMENT 👇**
 
 # @run: simul: {T: 20, mode: irf}
 
-##> 🔎 LOOK RIGHT: a "Simulation" section appeared, with three parts.
-##>   • IRFS (impulse response functions): the experiment we asked for. One
-##>     shock of size sigma (0.005) hits at the start, then nothing else.
-##>     Read the pi_2 column: 0.005 right after the shock, then 0.003, 0.0018,
-##>     0.00108... Each number is the previous one times rho = 0.6. The
-##>     shock fades geometrically. The pi_1 column is 0.0 all the way: the
-##>     backward-looking copy never got shocked. (Values are deviations from
-##>     the 2% steady state.)
-##>   • Unconditional Moments: the variances and covariances of the model
-##>     when shocks keep arriving forever. For pi_2 it is 0.000039, which is
-##>     sigma^2 / (1 - rho^2) = 0.000025 / 0.64. A persistent economy wanders
-##>     further from home than a single period's shock suggests.
-##>   • Conditional Moments: the same, but one period ahead given what we know
-##>     today. For pi_2 it is 0.000025 = sigma^2: all that cannot be predicted
-##>     is the next shock. Compare the two numbers: persistence is what makes
-##>     the first larger.
+## ### 🔎 Look right: a "Simulation" section appeared, with three parts
+##   • **IRFs (impulse response functions)**: the experiment we asked for. One
+##     shock of size `sigma` (0.005) hits at the start, then nothing else.
+##     Read the `pi_2` column: 0.005 right after the shock, then 0.003, 0.0018,
+##     0.00108... Each number is the previous one times `rho = 0.6`. The
+##     shock fades geometrically. The `pi_1` column is 0.0 all the way: the
+##     backward-looking copy never got shocked. (Values are deviations from
+##     the 2% steady state.)
+##   • **Unconditional Moments**: the variances and covariances of the model
+##     when shocks keep arriving forever. For `pi_2` it is 0.000039, which is
+##     `sigma^2 / (1 - rho^2) = 0.000025 / 0.64`. A persistent economy wanders
+##     further from home than a single period's shock suggests.
+##   • **Conditional Moments**: the same, but one period ahead given what we know
+##     today. For `pi_2` it is `0.000025 = sigma^2`: all that cannot be predicted
+##     is the next shock. Compare the two numbers: persistence is what makes
+##     the first larger.
 
-##> Then a plot. Inflation jumps on impact, then fades back toward 2% by a
-##> factor rho each period. pi_1 stays flat at its steady state: nothing ever
-##> hit it.
-##>
-##> 👉 UN-COMMENT 👇
+## Then a plot. Inflation jumps on impact, then fades back toward 2% by a
+## factor `rho` each period. `pi_1` stays flat at its steady state: nothing ever
+## hit it.
+##
+## **👉 UN-COMMENT 👇**
 
 # @run: plot: {variables: [pi_1, pi_2, e]}
 
-##> ───────────────────────────────────────────────────────────────────────────
-##> STEP 5 — MAYBE INFLATION LOOKS FORWARD, TOO
-##> Firms are not that naive. Prices set today stay in place for a while, so
-##> firms also care about the inflation they EXPECT next period: pi_3[t+1].
-##> beta is the weight on that expectation. The third version of inflation,
-##> pi_3, again rests at 2%, and its equation looks backward AND forward.
-##> Dyno reads pi_3[t+1] as a rational expectation: the solver works out by
-##> itself how inflation must jump today for expectations to come true.
-##> (If beta * rho gets too large, roughly 4 * beta * rho > 1, there is no
-##> stable solution and the panel will say so.)
-##>
-##> 👉 UN-COMMENT 👇
+## ───────────────────────────────────────────────────────────────────────────
+## ## STEP 5 — MAYBE INFLATION LOOKS FORWARD, TOO
+## Firms are not that naive. Prices set today stay in place for a while, so
+## firms also care about the inflation they EXPECT next period: `pi_3[t+1]`.
+## `beta` is the weight on that expectation. The third version of inflation,
+## `pi_3`, again rests at 2%, and its equation looks backward AND forward.
+## Dyno reads `pi_3[t+1]` as a rational expectation: the solver works out by
+## itself how inflation must jump today for expectations to come true.
+## (If `beta * rho` gets too large, roughly `4 * beta * rho > 1`, there is no
+## stable solution and the panel will say so.)
+##
+## **👉 UN-COMMENT 👇**
 
 # beta <- 0.1
 # pi_3[~] <- 0.02
 # pi_3[t] - pi_3[~] = rho * (pi_3[t-1] - pi_3[~]) + beta * (pi_3[t+1] - pi_3[~]) + e[t]
 
-##> Finally, compare with the backward-looking version: expectations make
-##> inflation react differently on impact, and unwind differently too.
-##>
-##> 👉 UN-COMMENT 👇
+## Finally, compare with the backward-looking version: expectations make
+## inflation react differently on impact, and unwind differently too.
+##
+## **👉 UN-COMMENT 👇**
 
 # @run: plot: {variables: [pi_2, pi_3]}
 
-##> 🔎 LOOK RIGHT: the plot compares backward-looking (pi_2) vs hybrid (pi_3).
-##>   • With forward-looking expectations (beta > 0), firms anticipate future
-##>     price pressures, shifting today's price response.
-##>   • Compare the two curves: pi_3 reacts differently on impact and follows
-##>     a distinct decay trajectory back to the 2% steady state.
-##>   • Try setting beta <- 0.0 in Step 5: pi_3 will collapse back onto pi_2.
+## ### 🔎 Look right: the plot compares backward-looking (pi_2) vs hybrid (pi_3)
+##   • With forward-looking expectations (`beta > 0`), firms anticipate future
+##     price pressures, shifting today's price response.
+##   • Compare the two curves: `pi_3` reacts differently on impact and follows
+##     a distinct decay trajectory back to the 2% steady state.
+##   • Try setting `beta <- 0.0` in Step 5: `pi_3` will collapse back onto `pi_2`.
 
-##> ───────────────────────────────────────────────────────────────────────────
-##> STEP 6 — PLAY
-##> Change ONE parameter at a time and watch the responses change. It's live.
-##>   • sigma <- 0.01    bigger shocks, taller response, same shape
-##>   • rho   <- 0.8     more inertia: inflation lingers
-##>   • beta  <- 0.0     firms stop looking ahead: pi_3 falls on pi_2
-##>   • pi_1[~] <- 0.04  a higher target: the equation moves with it, which is
-##>                      the point of writing it in deviations
-##> Red squiggles are Dyno's way of saying "I don't follow", and they point to
-##> where it got lost. If you get lost yourself,
-##> `git checkout -- double_click_me.dyno` brings this file back.
+## ───────────────────────────────────────────────────────────────────────────
+## ## STEP 6 — PLAY
+## Change ONE parameter at a time and watch the responses change. It's live.
+##   • `sigma <- 0.01`    bigger shocks, taller response, same shape
+##   • `rho   <- 0.8`     more inertia: inflation lingers
+##   • `beta  <- 0.0`     firms stop looking ahead: `pi_3` falls on `pi_2`
+##   • `pi_1[~] <- 0.04`  a higher target: the equation moves with it, which is
+##                        the point of writing it in deviations
+## Red squiggles are Dyno's way of saying "I don't follow", and they point to
+## where it got lost. If you get lost yourself,
+## `git checkout -- double_click_me.dyno` brings this file back.
 
-##> ───────────────────────────────────────────────────────────────────────────
-##> BONUS — PARAMETER VARIANTS
-##> What if we want to compare different values of a parameter?
-##> Un-comment the `@variants` directive below to solve and plot all three
-##> values of beta at once.
-##>
-##> 👉 UN-COMMENT 👇
+## ───────────────────────────────────────────────────────────────────────────
+## ## BONUS — PARAMETER VARIANTS
+## What if we want to compare different values of a parameter?
+## Un-comment the `@variants` directive below to solve and plot all three
+## values of `beta` at once.
+##
+## **👉 UN-COMMENT 👇**
 
 # @variants: {beta: [0.0, 0.1, 0.2]}
 
-##> ───────────────────────────────────────────────────────────────────────────
-##> WHAT YOU JUST DID 🦖
-##> You wrote a small macroeconomic model from Dyno's ingredients: parameters,
-##> steady states, shocks and equations, driven by @ metadata.
-##> Next: open 01_getting_started.ipynb for the same grammar on a bigger model.
+## ───────────────────────────────────────────────────────────────────────────
+## ## WHAT YOU JUST DID 🦖
+## You wrote a small macroeconomic model from Dyno's ingredients: parameters,
+## steady states, shocks and equations, driven by `@` metadata.
+## Next: open `01_getting_started.ipynb` for the same grammar on a bigger model.
