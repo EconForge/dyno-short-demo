@@ -210,14 +210,14 @@
 ## ───────────────────────────────────────────────────────────────────────────
 ## ## STEP 6 — PLAY
 ## Change ONE parameter at a time and watch the responses change. It's live.
+## Scroll back and make these changes:
 ##   • `sigma <- 0.01`    bigger shocks, taller response, same shape
 ##   • `rho   <- 0.8`     more inertia: inflation lingers
 ##   • `beta  <- 0.0`     firms stop looking ahead: `pi_3` falls on `pi_2`
 ##   • `pi_1[~] <- 0.04`  a higher target: the equation moves with it, which is
 ##                        the point of writing it in deviations
 ## Red squiggles are Dyno's way of saying "I don't follow", and they point to
-## where it got lost. If you get lost yourself,
-## `git checkout -- double_click_me.dyno` brings this file back.
+## where it got lost. 
 
 ## ───────────────────────────────────────────────────────────────────────────
 ## ## BONUS — PARAMETER VARIANTS
