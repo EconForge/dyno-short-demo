@@ -11,8 +11,6 @@
 ##     you type: no save button, no run button.
 ##   • To un-comment a line: click on it and press **Ctrl+/** (**⌘+/** on a Mac),
 ##     or just delete the first "#".
-##   • You only ever move DOWN the file. Each step ADDS lines and never asks
-##     you to edit an earlier one.
 ##
 ## ## THE STORY
 ##   Inflation, `pi`, is the rate at which prices move. We start with firms
