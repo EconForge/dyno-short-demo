@@ -59,7 +59,7 @@
 ##
 ## **👉 UN-COMMENT 👇**
 
-pi_1[t] - pi_1[~] = rho * (pi_1[t-1] - pi_1[~])
+# pi_1[t] - pi_1[~] = rho * (pi_1[t-1] - pi_1[~])
 
 ## ### 🔎 Take a tour of the panel (nothing to un-comment here)
 ## The panel on the right describes your model, one section at a time. Look
